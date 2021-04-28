@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { randomWord } from './words';
 import '../styles/Hangman.css';
 
 import img0 from '../img/0.jpg';
@@ -18,8 +19,19 @@ class Hangman extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { nWrong: 0, guessed: new Set(), answer: "apple" };
+    this.state = { nWrong: 0, guessed: new Set(), answer: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
+    this.resetGame = this.resetGame.bind(this);
+  }
+
+  /** Reset the game & choose a new word */
+  resetGame() {
+    this.setState({
+      nWrong: 0,
+      guessed: new Set(),
+      answer: randomWord()
+    });
+
   }
 
   /** guessedWord: show current-state of word:
@@ -69,26 +81,38 @@ class Hangman extends Component {
   }*/
   render() {
     let showButtons;
+
     if (this.state.nWrong < this.props.maxWrong) {
       showButtons = <p className='Hangman-btns'>{this.generateButtons()}</p>
+      console.log(this.state.answer);
+      console.log(this.state.guessed);
     } else {
       showButtons = <p className='Hangman-lose'>Incorrect! The Word Was: {this.state.answer}</p>
     }
+
+    if (this.state.answer === this.state.guessed) {
+      showButtons = <p className='Hangman-win'>You Win</p>
+    }
+
     let altImg = `Guesses Remain: ${this.state.nWrong}/${this.props.maxWrong}`;
 
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img src={this.props.images[this.state.nWrong]} alt={altImg} />
-        <p className='Hangman-guess'>Guesses Remaining: {this.props.maxWrong - this.state.nWrong}</p>
         <p className='Hangman-word'>{this.guessedWord()}</p>
+        <p className='Hangman-guess'>Guesses Remaining: {this.props.maxWrong - this.state.nWrong}</p>
         {/*
         {this.state.nWrong != this.props.maxWrong &&
           <p className='Hangman-btns>{this.generateButtons()}</p>
         }
         */}
         {showButtons}
+        <div>
+          <button className='btn-reset' onClick={this.resetGame}>Restart</button>
+        </div>
       </div >
+
     );
   }
 }

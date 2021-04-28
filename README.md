@@ -1,4 +1,4 @@
-# Hangman
+# React hangman gam exercise
 
 ###Part One: Add A Key
 
@@ -15,3 +15,15 @@ The game only comes (by default) with 6 gallows images and therefore should only
 Change the behavior of the game so that after six wrong guesses, it no longer shows the button area. Instead, it should show the message “You lose” and reveal the correct word.
 
 Do this without hard-coding “6” in as the number of guesses — instead, use the prop for maxGuesses.
+
+###Part Four: Alt Text
+
+Add an alt attribute to the hangman image that explains how many guesses have been made, inc case the images don’t load. Something like “5/6” or “5 wrong guesses”
+
+###Part Five: Use a Random Word
+
+The game right now always uses the word “apple” as the secret word. There’s a file, words.js, with a list of words and a function to return a random word. Incorporate this so that the game uses this to choose a secret word.
+
+###Part Six: Add “Restart” Button
+
+Add a button that will restart the game. This should pick a new random word and reset the guessed list and number of wrong guesses.
