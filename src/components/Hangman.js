@@ -26,9 +26,11 @@ class Hangman extends Component {
     if guessed letters are {a,p,e}, show "app_e" for "apple"
   */
   guessedWord() {
+    //let guess=this.state.answer
     return this.state.answer
       .split("")
       .map(ltr => (this.state.guessed.has(ltr) ? ltr : "_"));
+    //console.log(answer);
   }
 
   /** handleGuest: handle a guessed letter:
@@ -57,16 +59,36 @@ class Hangman extends Component {
     ));
   }
 
-  /** render: render game */
+  /* render: render game */
+  /* to end the game: 
+  if state(nWrong) <= props(maxWrong)
+  if {(this.state.nWrong < this.props.maxWrong) {
+  this.generateButtons()
+  }else {
+  `You lose: ${this.state.answer}`
+  }*/
   render() {
+    let showButtons;
+    if (this.state.nWrong < this.props.maxWrong) {
+      showButtons = <p className='Hangman-btns'>{this.generateButtons()}</p>
+    } else {
+      showButtons = <p className='Hangman-lose'>Incorrect! The Word Was: {this.state.answer}</p>
+    }
+    let altImg = `Guesses Remain: ${this.state.nWrong}/${this.props.maxWrong}`;
+
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
-        <img src={this.props.images[this.state.nWrong]} />
+        <img src={this.props.images[this.state.nWrong]} alt={altImg} />
         <p className='Hangman-guess'>Guesses Remaining: {this.props.maxWrong - this.state.nWrong}</p>
         <p className='Hangman-word'>{this.guessedWord()}</p>
-        <p className='Hangman-btns'>{this.generateButtons()}</p>
-      </div>
+        {/*
+        {this.state.nWrong != this.props.maxWrong &&
+          <p className='Hangman-btns>{this.generateButtons()}</p>
+        }
+        */}
+        {showButtons}
+      </div >
     );
   }
 }
