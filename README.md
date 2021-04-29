@@ -1,4 +1,4 @@
-# React hangman gam exercise
+# React hangman exercise
 
 ###Part One: Add A Key
 

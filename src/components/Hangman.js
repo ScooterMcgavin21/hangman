@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { randomWord } from './words';
 import '../styles/Hangman.css';
 
-import img0 from '../img/0.jpg';
-import img1 from '../img/1.jpg';
-import img2 from '../img/2.jpg';
-import img3 from '../img/3.jpg';
-import img4 from '../img/4.jpg';
-import img5 from '../img/5.jpg';
-import img6 from '../img/6.jpg';
+import img0 from '../img/0.png';
+import img1 from '../img/1.png';
+import img2 from '../img/2.png';
+import img3 from '../img/3.png';
+import img4 from '../img/4.png';
+import img5 from '../img/5.png';
+import img6 from '../img/6.png';
 
 class Hangman extends Component {
   /** by default, allow 6 guesses and use provided gallows images. */
@@ -80,41 +80,34 @@ class Hangman extends Component {
   `You lose: ${this.state.answer}`
   }*/
   render() {
-    //let showButtons;
-    let wlBtn;
+    let gameState = <p className='Hangman-btns'>{this.generateButtons()}</p>;
+    let altImg = `Guesses Remain: ${this.state.nWrong}/${this.props.maxWrong}`;
 
-    if (this.state.nWrong < this.props.maxWrong) {
-      wlBtn = <p className='Hangman-btns'>{this.generateButtons()}</p>
-      console.log(this.state.answer);
-      console.log(this.state.guessed);
-    } else {
-      wlBtn = <p className='Hangman-lose'>Incorrect! The Word Was: {this.state.answer}</p>
+    if (this.state.nWrong >= this.props.maxWrong) {
+      gameState = <p className='Hangman-lose'>Incorrect! The Word Was: {this.state.answer}</p>
     }
 
     if (this.state.answer.split("").map(ltr => this.state.guessed.has(ltr)).every(x => x === true)) {
-      wlBtn = <p className='Hangman-win'>You Win</p>
+      gameState = <p className='Hangman-win'>You Win</p>
     }
-
-
-    let altImg = `Guesses Remain: ${this.state.nWrong}/${this.props.maxWrong}`;
 
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img src={this.props.images[this.state.nWrong]} alt={altImg} />
-        <p className='Hangman-word'>{this.guessedWord()}</p>
         <p className='Hangman-guess'>Guesses Remaining: {this.props.maxWrong - this.state.nWrong}</p>
+        <p className='Hangman-word'>{this.guessedWord()}</p>
+
         {/*
         {this.state.nWrong != this.props.maxWrong &&
           <p className='Hangman-btns>{this.generateButtons()}</p>
         }
         */}
-        {wlBtn}
+        {gameState}
         <div>
-          <button className='btn-reset' onClick={this.resetGame}>Restart</button>
+          <button id='btn-reset' onClick={this.resetGame}>Restart</button>
         </div>
       </div >
-
     );
   }
 }
